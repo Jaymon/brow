@@ -5,6 +5,7 @@
 from setuptools import setup, find_packages
 import re
 import os
+from codecs import open
 
 
 name = 'brow'

@@ -7,7 +7,6 @@ Control a browser using python.
 
 Brow uses Selenium and headless Chrome or headless Firefox.
 
-
 ### Installing Selenium python bindings
 
 ```
@@ -75,7 +74,7 @@ You can verify Chrome headless works by running:
 If you didn't get any errors then it is working.
 
 
-## I have a browser installed, how do I use it?
+## I've installed a browser, now what do I do?
 
 Then request something:
 

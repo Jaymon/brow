@@ -7,7 +7,7 @@ import re
 import os
 
 
-name = 'prom'
+name = 'brow'
 with open(os.path.join(name, "__init__.py")) as f:
     version = re.search("^__version__\s*=\s*[\'\"]([^\'\"]+)", f.read(), flags=re.I | re.M).group(1)
 

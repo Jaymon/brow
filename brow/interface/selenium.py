@@ -93,7 +93,14 @@ class Selenium(BaseBrowser):
             inter.get(url)
 
     def element(self, css_selector, timeout=0):
-        """wrapper around Selenium's css selector that raises ParseError if fails"""
+        """wrapper around Selenium's css selector
+
+        http://selenium-python.readthedocs.io/locating-elements.html
+        https://github.com/SeleniumHQ/selenium/blob/master/py/selenium/webdriver/remote/webelement.py
+
+        :param css_selector: str, used to select elements on the page
+        :returns: the elements or None if nothing was found
+        """
         ret = None
         inter = self.interface
         inter.implicitly_wait(timeout) # http://selenium-python.readthedocs.io/waits.html#implicit-waits
@@ -119,6 +126,7 @@ class Selenium(BaseBrowser):
 #     def wait_for_element(self, css_selector, seconds):
 #         # ??? -- not sure this is needed or is better than builtin methods
 #         # http://stackoverflow.com/questions/26566799/selenium-python-how-to-wait-until-the-page-is-loaded
+#         # http://selenium-python.readthedocs.io/waits.html#explicit-waits
 #         elem = None
 #         driver = self.browser
 #         for count in range(seconds):
@@ -161,6 +169,9 @@ class ChromeBrowser(Selenium):
         # https://sites.google.com/a/chromium.org/chromedriver/getting-started
         # http://stackoverflow.com/questions/8255929/running-webdriver-chrome-with-selenium
         # https://intoli.com/blog/running-selenium-with-headless-chrome/
+
+        # options: https://sites.google.com/a/chromium.org/chromedriver/capabilities
+        # https://peter.sh/experiments/chromium-command-line-switches/
         options.setdefault("start-maximized", True)
         options.setdefault("disable-infobars", True)
         options.setdefault("--disable-extensions", True)
@@ -179,9 +190,14 @@ class ChromeBrowser(Selenium):
 
         # !!! this doesn't work in headless and it doesn't look like they are going
         # to fix that anytime soon
+        # see: https://bugs.chromium.org/p/chromedriver/issues/detail?id=1925#c11
         #opts.add_experimental_option('prefs', {'intl.accept_languages': 'en-US,en'})
+        # I might be able to get around this doing something like:
+        # https://intoli.com/blog/making-chrome-headless-undetectable/
+        # but not sure it's worth it
 
         inter = webdriver.Chrome(chrome_options=opts)
+        # version: 
 
 #         user_agent = " ".join([
 #             "Mozilla/5.0", 
@@ -189,7 +205,7 @@ class ChromeBrowser(Selenium):
 #             "(Macintosh; Intel Mac OS X 10_12_6)",
 #             "AppleWebKit/537.36", 
 #             "(KHTML, like Gecko)", 
-#             "Chrome/{}".format(inter.capabilities['version']),
+#             "Chrome/{}".format(inter.capabilities['version']), # https://stackoverflow.com/a/12559477/5006
 #             "Safari/537.36"
 #         ])
 #         opts.add_argument("user-agent={}".format(user_agent))
@@ -225,6 +241,7 @@ class FirefoxBrowser(Selenium):
 
         opts = FirefoxOptions()
         #opts.set_headless() # in master but not in version on pypi
+        # https://intoli.com/blog/running-selenium-with-headless-firefox/
         options["--headless"] = True
         os.environ['MOZ_HEADLESS'] = '1' # windows bug (just in case)
 
@@ -238,6 +255,7 @@ class FirefoxBrowser(Selenium):
 
         #opts.add_experimental_option('prefs', {'intl.accept_languages': 'en-US,en'})
 
+        # https://www.howtogeek.com/howto/internet/firefox/quick-tip-disable-favicons-in-firefox/
         opts.set_preference('browser.chrome.favicons', False)
         opts.set_preference('browser.chrome.site_icons', False)
         #opts.set_preference("general.useragent.override", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:57.0) Gecko/20100101 Firefox/57.0")
@@ -261,6 +279,7 @@ class FirefoxBrowser(Selenium):
             "Gecko/20100101", 
             "Firefox/{}".format(inter.capabilities['browserVersion']),
         ])
+        # https://stackoverflow.com/questions/29916054/change-user-agent-for-selenium-driver
         opts.set_preference("general.useragent.override", user_agent)
         # now get the driver again with a different useragent
         inter.close()

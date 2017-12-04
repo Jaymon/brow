@@ -76,7 +76,7 @@ If you didn't get any errors then it is working.
 
 ## I've installed a browser, now what do I do?
 
-Then request something:
+Let's request something:
 
 ```python
 from brow.interface.selenium import FirefoxBrowser as Browser
@@ -85,7 +85,14 @@ from brow.interface.selenium import FirefoxBrowser as Browser
 with Browser.session() as b:
     b.load("http://marcyes.com")
     print(b.body)
+
+    # follow a link
+    css_selector = "a#some_id"
+    elem = b.element(css_selector)
+    elem.click()
+    print(b.url) # will now be whatever elem had in href
 ```
+
 
 ### Handling Cookies
 

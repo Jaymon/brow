@@ -7,7 +7,6 @@ import datetime
 import os
 import json
 
-from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException, \
     WebDriverException, \
     NoSuchWindowException
@@ -15,6 +14,7 @@ from selenium.common.exceptions import NoSuchElementException, \
 from ..compat import *
 from ..core import Cookies
 from .. import environ
+from ..utils import Soup
 
 
 logger = logging.getLogger(__name__)
@@ -34,11 +34,7 @@ class Browser(object):
 
     @property
     def soup(self):
-        # https://www.crummy.com/software/BeautifulSoup/
-        # docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-        # bs4 codebase: http://bazaar.launchpad.net/~leonardr/beautifulsoup/bs4/files
-        soup = BeautifulSoup(self.body, "html.parser")
-        return soup
+        return Soup(self.body)
 
     @property
     def json(self):
@@ -147,14 +143,6 @@ class Browser(object):
         if not options: options = {}
         return self._create_interface(options=options)
 
-    def load(self, *args, **kwargs):
-        """I'm starting to like this one the best since load/dump seems to be what
-        I've settled on for lots of other objects in this module and I think it works
-        you load() the contents of a url and you can dump the contents of the url using
-        dump()"""
-        return self.location(*args, **kwargs)
-    def visit(self, *args, **kwargs):
-        return self.location(*args, **kwargs)
     def _location(self, url, ignore_cookies):
         raise NotImplementedError()
     def location(self, url, ignore_cookies=False):
@@ -178,6 +166,12 @@ class Browser(object):
         ret = self._location(url, ignore_cookies)
         self.domains.add(self.domain)
         return ret
+    # I'm starting to like this one the best since load/dump seems to be what
+    # I've settled on for lots of other objects in this module and I think it works
+    # you load() the contents of a url and you can dump the contents of the url using
+    # dump()
+    load = location
+    visit = location
 
     def element(self, css_selector):
         raise NotImplementedError()

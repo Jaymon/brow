@@ -13,3 +13,19 @@ else:
 if not os.path.isdir(CACHE_DIR):
     dir_util.mkpath(CACHE_DIR)
 
+
+# https://www.crummy.com/software/BeautifulSoup/bs4/doc/#parser-installation
+HTML_PARSER = os.environ.get("BROW_HTML_PARSER", "")
+if not HTML_PARSER:
+    HTML_PARSER = "html.parser"
+    try:
+        import lxml
+        HTML_PARSER = "lxml"
+    except ImportError:
+        try:
+            import html5lib
+            HTML_PARSER = "html5lib"
+        except ImportError:
+            pass
+
+

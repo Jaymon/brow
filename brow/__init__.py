@@ -3,7 +3,7 @@ from __future__ import unicode_literals, division, print_function, absolute_impo
 import logging
 
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 
 # get rid of "No handler found" warnings (cribbed from requests)

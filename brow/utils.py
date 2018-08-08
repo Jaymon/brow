@@ -8,7 +8,7 @@ from . import environ
 
 
 class Soup(BeautifulSoup):
-    """Small wrapper around Beutiful Soup that uses an environment setting to pick
+    """Small wrapper around Beautiful Soup that uses an environment setting to pick
     the best parser"""
     # https://bazaar.launchpad.net/~leonardr/beautifulsoup/bs4/view/head:/bs4/__init__.py
     # https://www.crummy.com/software/BeautifulSoup/

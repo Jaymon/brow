@@ -55,11 +55,11 @@ class Selenium(BaseBrowser):
 
         return ret if len(ret) else None
 
-    def dump(self, prefix="dump", directory=None):
+    def dump(self, prefix="dump", directory=None, basename=None):
         ret = []
         inter = self.interface
         try:
-            basepath = self.dump_basepath(prefix, directory)
+            basepath = self.dump_basepath(prefix, directory, basename)
             path = "{}.png".format(basepath)
             inter.get_screenshot_as_file(path)
             logger.debug("Dumped screenshot to {}".format(path))

@@ -10,8 +10,7 @@ class ParseError(RuntimeError):
             if error:
                 msg = error.message
 
-        if body:
-            self.body = body
+        self.body = body
 
         self.error = error
         super(ParseError, self).__init__(msg)

@@ -59,6 +59,9 @@ class Cookies(object):
             c["rest"] = {"httpOnly": c.pop("httpOnly", None)}
             c["expires"] = c.pop("expiry", None)
 
+            # not supported?
+            c.pop("sameSite", None)
+
             jar.set(name, value, **c)
         return jar
 

@@ -122,22 +122,6 @@ class Selenium(BaseBrowser):
             ret = False
         return ret
 
-    #def element_for(self, css
-#     def wait_for_element(self, css_selector, seconds):
-#         # ??? -- not sure this is needed or is better than builtin methods
-#         # http://stackoverflow.com/questions/26566799/selenium-python-how-to-wait-until-the-page-is-loaded
-#         # http://selenium-python.readthedocs.io/waits.html#explicit-waits
-#         elem = None
-#         driver = self.browser
-#         for count in range(seconds):
-#             elem = driver.find_element_by_css_selector(css_selector)
-#             if elem:
-#                 break
-#             else:
-#                 time.sleep(1)
-# 
-#         return elem
-# 
     def close(self):
         """quit the browser and power down the virtual display"""
         logger.debug("Closing down browser")
